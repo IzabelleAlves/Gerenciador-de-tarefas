@@ -34,6 +34,11 @@ function App() {
     setTask(newTask);
   }
 
+  function onDeleteTaskClick(taskId) {
+    const newTasks = tasks.filter((task) => task.id !== taskId);
+    setTask(newTasks);
+  }
+
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500px]">
