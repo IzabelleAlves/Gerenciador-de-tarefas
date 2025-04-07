@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddTasks from "./components/AddTasks";
-import Tasks from "./components/tasks";
+import Tasks from "./components/Tasks";
 
 function App() {
   const [tasks, setTask] = useState([
