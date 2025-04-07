@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
   //destructuring as props
-
   const navigate = useNavigate();
 
-  function seeDatailsClick(task) {
-    navigate(`/task?task=${task.title}&description=${task.description}`); //query params
+  function onSeeDatailsClick(task) {
+    navigate(`/task?title=${task.title}&description=${task.description}`);
   }
   return (
     <ul className="space-y-4 p-6 bg-slate-200 rounded-md shadow">
@@ -22,9 +21,7 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
             {task.title}
           </button>
           <button
-            onClick={() => {
-              seeDatailsClick(task);
-            }}
+            onClick={() => onSeeDatailsClick(task)}
             className="bg-slate-400 p-2 rounded-md text-white"
           >
             <ChevronRightIcon />
