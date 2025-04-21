@@ -6,7 +6,11 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
   const navigate = useNavigate();
 
   function onSeeDatailsClick(task) {
-    navigate(`/task?title=${task.title}&description=${task.description}`);
+    const query = new URLSearchParams();
+    query.set("title", task.title);
+    query.set("description", task.description);
+    // navigate(`/task?title=${task.title}&description=${task.description}`);
+    navigate(`/task?${query.toString()}`);
   }
   return (
     <ul className="space-y-4 p-6 bg-slate-200 rounded-md shadow">

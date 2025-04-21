@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTasks from "./components/AddTasks";
 import Tasks from "./components/Tasks";
 
 function App() {
-  const [tasks, setTask] = useState([
-    {
-      id: 1,
-      title: "Estudar programação",
-      description: "Estudar programação para se tornar um dev full stack",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      title: "Correr",
-      description: "Ter um bom condicionamento físico",
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      title: "Auto escola",
-      description: "Tirar habilitação",
-      isCompleted: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+  // recebe primeiro uma função e depois uma lista
+  //Funciona assim: o useEffect executa a primeira função sempre que algum valor que está dentro da lista for alterado
+
+  useEffect(() => {
+    async function fetchTasks() {
+      //CHAMAR A API
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5",
+        {
+          method: "GET",
+        }
+      );
+      //PEGAR PS DADOS QUE ELA RETORNA
+      const data = await response.json();
+
+      //ARMAZENA OS DADOS NO STATE
+      setTasks(data);
+    }
+    fetchTasks();
+  }, []);
+  //se criar um useEffect com a lista vazia, quer dizer que que essa função só é executada uma vez: quando o usuário acessa a apliocação pela primeira vez.
 
   function onTaskClick(taskId) {
     const newTask = tasks.map((task) => {
@@ -31,12 +39,12 @@ function App() {
       }
       return task;
     });
-    setTask(newTask);
+    setTasks(newTask);
   }
 
   function onDeleteTaskClick(taskId) {
     const newTasks = tasks.filter((task) => task.id !== taskId);
-    setTask(newTasks);
+    setTasks(newTasks);
   }
 
   function onAddTaskSubmit(title, description) {
@@ -46,7 +54,7 @@ function App() {
       description,
       isCompleted: false,
     };
-    setTask([...tasks, newTask]);
+    setTasks([...tasks, newTask]);
   }
 
   return (
